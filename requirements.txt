@@ -1,0 +1,23 @@
+# Core Django Packages
+Django==4.2.18
+channels==4.0.0
+daphne==4.0.0
+
+# WebSockets & Async Support
+autobahn==23.6.2
+asgiref==3.7.2
+channels-redis==4.1.0
+
+# Modbus Communication
+pymodbus==2.5.0
+pyserial==3.5
+
+# RSS Feed Parser
+feedparser==6.0.10
+
+# Cryptography (For Secure Connections)
+cryptography==42.0.2
+
+# Additional Utilities
+setuptools==69.0.3
+wheel==0.42.0

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Lift System</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+            height: 80%;
+        }
+
+        .left-frame {
+            width: 25%;
+            height: 100%;
+            background-color: #1e1e1e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-right: 4px solid #444;
+        }
+
+        .right-frame {
+            width: 75%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid #444;
+        }
+
+        .news-frame {
+            width: 100%;
+            height: 10%;
+            background-color: #ffcc00;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .news-text {
+            position: absolute;
+            white-space: nowrap;
+            animation: scrollNews 5s linear infinite;
+        }
+
+        @keyframes scrollNews {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .company-frame {
+            width: 100%;
+            height: 10%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <div class="left-frame">
+            <h2>Floor: <span id="floorNumber">-</span></h2>
+            <h3>Direction:</h3>
+            <img id="directionImage" src="" width="80">
+        </div>
+        <div class="right-frame">
+            <img id="floorImage" width="300">
+        </div>
+    </div>
+
+    <div class="news-frame">
+        <div id="newsContent" class="news-text">Loading news...</div>
+    </div>
+    <div class="company-frame">
+        <p id="companyName">Company: </p>
+    </div>
+
+    <script>
+        let socket = new WebSocket('ws://127.0.0.1:8000/ws/lift-data/');
+        socket.onmessage = (event) => {
+            let data = JSON.parse(event.data);
+            document.getElementById('floorNumber').innerText = data.lift_data.floor_number;
+            document.getElementById('floorImage').src = data.floor_image_path;
+            document.getElementById('directionImage').src = data.direction_image;
+            document.getElementById('newsContent').innerText = data.rss_feed[0].title;
+        };
+    </script>
+
+</body>
+
+</html>
